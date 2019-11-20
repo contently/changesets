@@ -19,24 +19,26 @@ function getCorrectRegistry() {
 }
 
 export async function getTokenIsRequired() {
+  // FIX: Disable because our registry doesn't support the profile API
   // Due to a super annoying issue in yarn, we have to manually override this env variable
   // See: https://github.com/yarnpkg/yarn/issues/2935#issuecomment-355292633
-  const envOverride = {
-    npm_config_registry: getCorrectRegistry()
-  };
-  let result = await spawn("npm", ["profile", "get", "--json"], {
-    env: Object.assign({}, process.env, envOverride)
-  });
-  let json = JSON.parse(result.stdout.toString());
-  if (json.error) {
-    error(
-      `an error occurred while running \`npm profile get\`: ${json.error.code}`
-    );
-    error(json.error.summary);
-    if (json.error.summary) error(json.error.summary);
-    throw new ExitError(1);
-  }
-  return json.tfa.mode === "auth-and-writes";
+  // const envOverride = {
+  //   npm_config_registry: getCorrectRegistry()
+  // };
+  // let result = await spawn("npm", ["profile", "get", "--json"], {
+  //   env: Object.assign({}, process.env, envOverride)
+  // });
+  // let json = JSON.parse(result.stdout.toString());
+  // if (json.error) {
+  //   error(
+  //     `an error occurred while running \`npm profile get\`: ${json.error.code}`
+  //   );
+  //   error(json.error.summary);
+  //   if (json.error.summary) error(json.error.summary);
+  //   throw new ExitError(1);
+  // }
+  // return json.tfa.mode === "auth-and-writes";
+  return true;
 }
 
 export function getPackageInfo(pkgName: string) {

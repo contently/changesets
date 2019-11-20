@@ -29,6 +29,15 @@ To check that PRs contain a changeset, we recommend using [the changeset bot](ht
 
 To make releasing easier, you can use [this changesets github action](https://github.com/changesets/action) to automate creating versioning pull requests, and optionally publishing packages.
 
+## Contently Registry
+
+We forked changesets because our internal NPM registry does not support the profile API, causing the CLI to fail. We commented out the call and have published the package under our own registry. To apply updates, use the following:
+
+```shell
+yarn publish --registry CONTENTLY_REGISTRY_URL
+```
+
+
 ## Cool Projects already using Changesets for versioning and changelogs
 
 - [atlaskit](https://atlaskit.atlassian.com/)
