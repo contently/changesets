@@ -24,19 +24,10 @@ export default async function publishPackages({
   const packages = await getWorkspaces({ cwd });
   const workspacesByName = new Map(packages.map(x => [x.name, x]));
   const publicPackages = packages.filter(pkg => !pkg.config.private);
-  let twoFactorState: TwoFactorState =
-    otp === undefined
-      ? {
-          token: null,
-          isRequired: isCI
-            ? Promise.resolve(false)
-            : // note: we're not awaiting this here, we want this request to happen in parallel with getUnpublishedPackages
-              npmUtils.getTokenIsRequired()
-        }
-      : {
-          token: otp,
-          isRequired: Promise.resolve(true)
-        };
+  let twoFactorState: TwoFactorState = {
+    token: null,
+    isRequired: Promise.resolve(false)
+  };
   const unpublishedPackagesInfo = await getUnpublishedPackages(
     publicPackages,
     preState
